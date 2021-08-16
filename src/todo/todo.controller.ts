@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo } from './entities/todo.entity';
+import { ResponseCustom } from 'src/types/ResponseCustom';
+import { Put } from '@nestjs/common';
 
 @Controller('todo')
 export class TodoController {
@@ -14,22 +16,22 @@ export class TodoController {
   }
 
   @Get()
-  findAll() {
-    return this.todoService.findAll();
+  async findAll(): Promise<Todo[]> {
+    return await this.todoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todoService.findOne(+id);
+  async findOne(@Param('id') id: string): Promise<Todo> {
+    return this.todoService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto) {
-    return this.todoService.update(+id, updateTodoDto);
+  @Put(':id')
+  async update(@Param('id') id: string, @Body() updateTodoDto: UpdateTodoDto): Promise<ResponseCustom> {
+    return await this.todoService.update(id, updateTodoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todoService.remove(+id);
+  async remove(@Param('id') id: string): Promise<ResponseCustom> {
+    return await this.todoService.remove(id);
   }
 }

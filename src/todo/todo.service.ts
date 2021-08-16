@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { ResponseCustom } from 'src/types/ResponseCustom';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 import { Todo, TodoDocument } from './schemas/todo.schema';
@@ -17,19 +18,30 @@ export class TodoService {
     return await createdTodo.save();
   }
 
-  findAll() {
-    return `This action returns all todo`;
+  async findAll(): Promise<Todo[]> {
+    return await this.todoModel.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} todo`;
+  async findOne(id: string): Promise<Todo> {
+    return await this.todoModel.findById(id);
   }
 
-  update(id: number, updateTodoDto: UpdateTodoDto) {
-    return `This action updates a #${id} todo`;
+  async update(id: string, updateTodoDto: UpdateTodoDto): Promise<ResponseCustom> {
+    try {
+      await this.todoModel.findByIdAndUpdate(id, updateTodoDto).exec();
+      return { msg: `Todo ${id} actualizado correctamente` };
+    } catch (error) {
+      return { msg: `Todo ${id} no existe` };
+    }
+
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} todo`;
+  async remove(id: string): Promise<ResponseCustom> {
+    let resp = await this.todoModel.findByIdAndRemove(id).exec();
+    if (resp) {
+      return { msg: `Todo ${id} eliminado correctamente` };
+    } else {
+      return { msg: `Todo ${id} no existe` };
+    }
   }
 }
