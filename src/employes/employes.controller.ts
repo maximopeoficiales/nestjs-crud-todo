@@ -37,7 +37,7 @@ export class EmployesController {
 
   @Post("upload")
   uploadFile(@Req() req: Request, @Res() res: Response, @Headers() header) {
-    console.log(header);
+    // console.log(header);
 
     if (Object.entries(req.body).length !== 0) return res.status(HttpStatus.OK).json(req.body);
 

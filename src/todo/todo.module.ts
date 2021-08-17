@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule, RequestMethod } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { TodoController } from './todo.controller';
 import { MongooseModule } from '@nestjs/mongoose';
@@ -18,7 +18,9 @@ export class TodoModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)
-      .forRoutes("/");
+      // .forRoutes(TodoController);
+      .forRoutes({ path: "/", method: RequestMethod.ALL });
+    // .forRoutes("/");
   }
 
 

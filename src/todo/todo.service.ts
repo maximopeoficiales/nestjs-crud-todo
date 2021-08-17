@@ -13,7 +13,7 @@ export class TodoService {
 
   async create(createTodoDto: CreateTodoDto): Promise<Todo> {
     const createdTodo = new this.todoModel(createTodoDto);
-    console.log(createdTodo);
+    // console.log(createdTodo);
 
     return await createdTodo.save();
   }
