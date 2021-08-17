@@ -8,6 +8,8 @@ import { Todo, TodoSchema } from './schemas/todo.schema';
   // se importa el esquema en todo el modulo
   imports: [MongooseModule.forFeature([{ name: Todo.name, schema: TodoSchema }])],
   controllers: [TodoController],
-  providers: [TodoService]
+  providers: [TodoService],
+  // exporto el servicio para que pueda ser inyectado en todo aquel que importe este modulo
+  exports: [TodoService]
 })
 export class TodoModule { }
