@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Render } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -15,7 +15,7 @@ export class TodoController {
     return await this.todoService.create(createTodoDto);
   }
 
-  @Get()
+  @Get("all")
   async findAll(): Promise<Todo[]> {
     return await this.todoService.findAll();
   }
@@ -33,5 +33,11 @@ export class TodoController {
   @Delete(':id')
   async remove(@Param('id') id: string): Promise<ResponseCustom> {
     return await this.todoService.remove(id);
+  }
+
+  @Get()
+  @Render('todo')
+  async todoHtml() {
+    return { todos: await this.todoService.findAll() };
   }
 }
