@@ -5,13 +5,23 @@ import { AppService } from './app.service';
 import { TodoModule } from './todo/todo.module';
 import { EmployesModule } from './employes/employes.module';
 import { ProductsModule } from './products/products.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { getConnectionOptions, Connection } from 'typeorm';
 
 @Module({
   // se configura los modulos hijos y la conexion global
   imports: [TodoModule, MongooseModule.forRoot('mongodb://localhost/todoApp', {
     useNewUrlParser: true
+  }), TypeOrmModule.forRootAsync({
+    useFactory: async () =>
+      Object.assign(await getConnectionOptions(), {
+        autoLoadEntities: true,
+      }),
   }), EmployesModule, ProductsModule],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(private connection: Connection) { }
+
+}
