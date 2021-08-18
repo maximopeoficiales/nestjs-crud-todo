@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Render } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Render, HttpStatus } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
-import { Todo } from './entities/todo.entity';
+// import { Todo } from './entities/todo.entity';
 import { ResponseCustom } from 'src/types/ResponseCustom';
 import { Put } from '@nestjs/common';
+import { ApiResponse } from '@nestjs/swagger';
+import { Todo } from './schemas/todo.schema';
 
 @Controller('todo')
 export class TodoController {
@@ -15,6 +17,7 @@ export class TodoController {
     return await this.todoService.create(createTodoDto);
   }
 
+  @ApiResponse({ status: HttpStatus.OK, description: "Return List todos", isArray: true, type: CreateTodoDto })
   @Get("all")
   async findAll(): Promise<Todo[]> {
     return await this.todoService.findAll();

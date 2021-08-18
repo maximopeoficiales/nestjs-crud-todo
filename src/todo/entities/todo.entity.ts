@@ -1,1 +1,3 @@
-export class Todo {}
+import { CreateTodoDto } from "../dto/create-todo.dto";
+
+export class Todo extends CreateTodoDto{}
