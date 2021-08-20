@@ -1,19 +1,18 @@
 import { Controller, Get, HttpException, HttpStatus, Render } from '@nestjs/common';
 import { AppService } from './app.service';
-import { Todo } from './todo/schemas/todo.schema';
-import { TodoService } from './todo/todo.service';
+import { Todo } from './api/todo/schemas/todo.schema';
+import { TodoService } from './api/todo/todo.service';
 
 @Controller()
 export class AppController {
   constructor(
     private readonly appService: AppService,
-    private readonly todoService: TodoService,
   ) { }
 
-  @Get("todoAll")
-  async getHello(): Promise<Todo[]> {
-    return await this.todoService.findAll();
-  }
+  // @Get("todoAll")
+  // async getHello(): Promise<Todo[]> {
+  //   return await this.todoService.findAll();
+  // }
 
   // ejemplo de manejo de errores
   @Get("error")

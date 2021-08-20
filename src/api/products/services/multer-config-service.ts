@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { MulterModuleOptions, MulterOptionsFactory } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
-import { editFileName, imageFileFilter } from "src/utils/file-uploading.utils";
+import { editFileName, imageFileFilter } from "src/api/utils/file-uploading.utils";
 
 @Injectable()
 export class MulterConfigService implements MulterOptionsFactory {

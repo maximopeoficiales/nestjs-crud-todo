@@ -3,12 +3,15 @@ import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
 // import { Todo } from './entities/todo.entity';
-import { ResponseCustom } from 'src/types/ResponseCustom';
+import { ResponseCustom } from 'src/api/types/ResponseCustom';
 import { Put } from '@nestjs/common';
 import { ApiResponse } from '@nestjs/swagger';
 import { Todo } from './schemas/todo.schema';
 
-@Controller('todo')
+// asi se puede implementar el versionado del api
+@Controller(
+  // { version: "1" }
+)
 export class TodoController {
   constructor(private readonly todoService: TodoService) { }
 

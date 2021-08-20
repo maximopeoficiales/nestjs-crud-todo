@@ -15,11 +15,12 @@ async function bootstrap() {
   app.setViewEngine('hbs');
 
   hbs.registerPartials(join(__dirname, '..', '/views/partials'));
- 
+
 
   // pipe validador global con ValidationPipe de nest js
   app.useGlobalPipes(new ValidationPipe());
-
+  // versionamiento
+  app.enableVersioning()
   // cors global
   app.enableCors({
     allowedHeaders: "*",
@@ -30,7 +31,7 @@ async function bootstrap() {
     .setTitle("API Nest js")
     .setDescription("Introduction in Nest Js")
     .setVersion("1.0")
-    .addTag("API")
+    // .addTag("API")
     .build();
 
   const document = SwaggerModule.createDocument(app, options);
@@ -39,6 +40,6 @@ async function bootstrap() {
     swaggerOptions: { filter: true, showRequestDuration: true }
   });
 
-  await app.listen(3000);
+  await app.listen(4000);
 }
 bootstrap();
