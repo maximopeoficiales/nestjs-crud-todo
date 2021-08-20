@@ -8,18 +8,22 @@ import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions, Connection } from 'typeorm';
 import { FileController } from './file/file.controller';
+import { RouterModule } from '@nestjs/core';
+import { TodoController } from './todo/todo.controller';
 
 @Module({
   // se configura los modulos hijos y la conexion global
-  imports: [TodoModule, MongooseModule.forRoot('mongodb://localhost/todoApp', {
+  imports: [MongooseModule.forRoot('mongodb://localhost/todoApp', {
     useNewUrlParser: true
   }), TypeOrmModule.forRootAsync({
     useFactory: async () =>
       Object.assign(await getConnectionOptions(), {
         autoLoadEntities: true,
       }),
-  }), EmployesModule, ProductsModule],
-  controllers: [AppController, FileController],
+  }), EmployesModule, ProductsModule, TodoModule, RouterModule.register([
+    { path: "api", module: TodoModule }
+  ])],
+  controllers: [AppController, FileController, TodoController],
   providers: [AppService],
 })
 export class AppModule {

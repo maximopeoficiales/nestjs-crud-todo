@@ -39,8 +39,8 @@ export class TodoController {
   }
 
   @Get()
-  @Render('todo')
+  @Render('todo/index')
   async todoHtml() {
-    return { todos: await this.todoService.findAll() };
+    return { todos: await this.todoService.findAll(), title: "Lista de Todos" };
   }
 }
