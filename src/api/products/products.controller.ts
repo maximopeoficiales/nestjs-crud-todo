@@ -7,9 +7,11 @@ import { Put } from '@nestjs/common';
 import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 import { Response } from 'express';
+import { ApiTags } from '@nestjs/swagger';
 
 
-@Controller('products')
+@ApiTags('Products')
+@Controller()
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) { }
 

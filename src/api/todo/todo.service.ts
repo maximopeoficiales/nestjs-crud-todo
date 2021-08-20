@@ -11,18 +11,18 @@ export class TodoService {
   // inyeccion de depencia  para obtener la instancia de TOdo
   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) { }
 
-  async create(createTodoDto: CreateTodoDto): Promise<Todo> {
+  async create(createTodoDto: CreateTodoDto): Promise<TodoDocument> {
     const createdTodo = new this.todoModel(createTodoDto);
     // console.log(createdTodo);
 
     return await createdTodo.save();
   }
 
-  async findAll(): Promise<Todo[]> {
+  async findAll(): Promise<TodoDocument[]> {
     return await this.todoModel.find().exec();
   }
 
-  async findOne(id: string): Promise<Todo> {
+  async findOne(id: string): Promise<TodoDocument> {
     return await this.todoModel.findById(id);
   }
 

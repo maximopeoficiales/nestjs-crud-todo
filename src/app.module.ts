@@ -3,12 +3,13 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { configMongoose, configTypeORM } from './config';
-import { RouterApiModule } from './router/router.api.module';
+import { RouterPagesModule } from './routers/api.pages.module';
+import { RouterApiModule } from './routers/api.router.module';
 
 @Module({
   // se configura los modulos hijos y la conexion global
   imports: [
-    MongooseModule.forRoot(configMongoose.uri, configMongoose.options), TypeOrmModule.forRootAsync(configTypeORM), RouterApiModule
+    MongooseModule.forRoot(configMongoose.uri, configMongoose.options), TypeOrmModule.forRootAsync(configTypeORM), RouterApiModule, RouterPagesModule
   ]
 })
 export class AppModule {

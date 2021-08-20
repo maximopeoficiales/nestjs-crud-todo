@@ -5,10 +5,15 @@ import { UpdateTodoDto } from './dto/update-todo.dto';
 // import { Todo } from './entities/todo.entity';
 import { ResponseCustom } from 'src/api/types/ResponseCustom';
 import { Put } from '@nestjs/common';
-import { ApiResponse } from '@nestjs/swagger';
+import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Todo } from './schemas/todo.schema';
 
 // asi se puede implementar el versionado del api
+@ApiTags('Todos')
+// @ApiHeader({
+//   name: 'X-MyHeader',
+//   description: 'Custom header',
+// })
 @Controller(
   // { version: "1" }
 )
@@ -21,7 +26,7 @@ export class TodoController {
   }
 
   @ApiResponse({ status: HttpStatus.OK, description: "Return List todos", isArray: true, type: CreateTodoDto })
-  @Get("all")
+  @Get()
   async findAll(): Promise<Todo[]> {
     return await this.todoService.findAll();
   }
@@ -41,9 +46,5 @@ export class TodoController {
     return await this.todoService.remove(id);
   }
 
-  @Get()
-  @Render('todo/index')
-  async todoHtml() {
-    return { todos: await this.todoService.findAll(), title: "Lista de Todos" };
-  }
+
 }
