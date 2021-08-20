@@ -15,6 +15,11 @@ async function bootstrap() {
   // pipe validador global con ValidationPipe de nest js
   app.useGlobalPipes(new ValidationPipe());
 
+  // cors global
+  app.enableCors({
+    allowedHeaders: "*",
+    origin: "*"
+  });
   // config swagger
   const options = new DocumentBuilder()
     .setTitle("API Nest js")

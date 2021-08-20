@@ -1,9 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, ParseIntPipe, HttpStatus, UsePipes, Query, DefaultValuePipe, ParseBoolPipe, HttpException, } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe, HttpStatus, Query, DefaultValuePipe, ParseBoolPipe, HttpException, UseInterceptors, UploadedFile, UploadedFiles, Res, } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 import { Put } from '@nestjs/common';
+import { FileFieldsInterceptor, FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+
+import { Response } from 'express';
 
 
 @Controller('products')
@@ -68,4 +71,47 @@ export class ProductsController {
 
     }
   }
+
+  // este filtro subira las imagenes
+  /* @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './files',
+      filename: editFileName,
+    }),
+    fileFilter: imageFileFilter,
+  })) */
+  // la implementacion se hizo a nivel de modulo por defecto
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
+    const response = {
+      originalname: file.originalname,
+      filename: file.filename,
+    };
+    return response;
+  }
+
+  // lee la imagen guardada en files por el metodo post
+  @Get('uploads/:imgpath')
+  seeUploadedFile(@Param('imgpath') image: string, @Res() res: Response) {
+    return res.sendFile(image, { root: './files' });
+  }
+
+
+  @Post('uploads')
+  @UseInterceptors(FilesInterceptor('files'))
+  uploadFiles(@UploadedFiles() files: Express.Multer.File[]) {
+    console.log(files);
+  }
+
+  // AnyFilesInterceptor() usar este interceptor cuando quieres que acepte cualquier tipo de clave
+  @Post('uploadsFields')
+  @UseInterceptors(FileFieldsInterceptor([
+    { name: 'avatar', maxCount: 1 },
+    { name: 'background', maxCount: 1 },
+  ]))
+  uploadFilesFields(@UploadedFiles() files: Express.Multer.File[]) {
+    console.log(files);
+  }
+
 }

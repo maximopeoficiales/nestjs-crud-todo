@@ -7,6 +7,7 @@ import { EmployesModule } from './employes/employes.module';
 import { ProductsModule } from './products/products.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getConnectionOptions, Connection } from 'typeorm';
+import { FileController } from './file/file.controller';
 
 @Module({
   // se configura los modulos hijos y la conexion global
@@ -18,7 +19,7 @@ import { getConnectionOptions, Connection } from 'typeorm';
         autoLoadEntities: true,
       }),
   }), EmployesModule, ProductsModule],
-  controllers: [AppController],
+  controllers: [AppController, FileController],
   providers: [AppService],
 })
 export class AppModule {
