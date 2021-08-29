@@ -4,6 +4,8 @@ import { TodoController } from './todo.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Todo, TodoSchema } from './schemas/todo.schema';
 import { LoggerMiddleware } from 'src/middlewares/logger.middleware';
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from 'src/auth/guards/ jwt-auth.guard';
 
 @Module({
   // se importa el esquema en todo el modulo

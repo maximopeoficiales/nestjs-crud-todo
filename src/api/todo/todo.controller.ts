@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Render, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, Render, HttpStatus, UseGuards } from '@nestjs/common';
 import { TodoService } from './todo.service';
 import { CreateTodoDto } from './dto/create-todo.dto';
 import { UpdateTodoDto } from './dto/update-todo.dto';
@@ -7,13 +7,17 @@ import { ResponseCustom } from 'src/api/types/ResponseCustom';
 import { Put } from '@nestjs/common';
 import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Todo } from './schemas/todo.schema';
+import { JwtAuthGuard } from 'src/auth/guards/ jwt-auth.guard';
+import { Public } from 'src/decorators/public.decorator';
 
+// se agrego guardian en todos los metodos del controlador
 // asi se puede implementar el versionado del api
 @ApiTags('Todos')
 // @ApiHeader({
 //   name: 'X-MyHeader',
 //   description: 'Custom header',
 // })
+@UseGuards(JwtAuthGuard)
 @Controller(
   // { version: "1" }
 )
@@ -26,6 +30,7 @@ export class TodoController {
   }
 
   @ApiResponse({ status: HttpStatus.OK, description: "Return List todos", isArray: true, type: CreateTodoDto })
+  @Public()
   @Get()
   async findAll(): Promise<Todo[]> {
     return await this.todoService.findAll();
