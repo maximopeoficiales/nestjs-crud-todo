@@ -2,9 +2,10 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module';
 import { join } from 'path';
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import * as hbs from 'hbs';
+import { optionsCors, optionsCustomSwagger, optionsSwagger } from './config/config.options';
 
 
 async function bootstrap() {
@@ -22,24 +23,12 @@ async function bootstrap() {
   // versionamiento
   app.enableVersioning()
   // cors global
-  app.enableCors({
-    allowedHeaders: "*",
-    origin: "*"
-  });
+  app.enableCors(optionsCors);
   // config swagger
-  const options = new DocumentBuilder()
-    .setTitle("API Nest js")
-    .setDescription("Introduction in Nest Js")
-    .setVersion("1.0")
-    // .addTag("API")
-    .build();
 
-  const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup("api/docs", app, document, {
-    explorer: true,
-    swaggerOptions: { filter: true, showRequestDuration: true },
-  });
+  const document = SwaggerModule.createDocument(app, optionsSwagger);
+  SwaggerModule.setup("api/docs", app, document, optionsCustomSwagger);
 
-  await app.listen(4000);
+  await app.listen(AppModule.port);
 }
 bootstrap();

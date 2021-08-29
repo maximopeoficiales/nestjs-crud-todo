@@ -9,6 +9,7 @@ import { ApiHeader, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Todo } from './schemas/todo.schema';
 import { JwtAuthGuard } from 'src/auth/guards/ jwt-auth.guard';
 import { Public } from 'src/decorators/public.decorator';
+import { AppModule } from 'src/app.module';
 
 // se agrego guardian en todos los metodos del controlador
 // asi se puede implementar el versionado del api
@@ -33,6 +34,7 @@ export class TodoController {
   @Public()
   @Get()
   async findAll(): Promise<Todo[]> {
+    
     return await this.todoService.findAll();
   }
 
