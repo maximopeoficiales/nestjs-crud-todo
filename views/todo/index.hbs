@@ -2,13 +2,13 @@
       {{> header}}
 
 
-      <a  class="btn btn-primary my-2" href="./create">Create Todo</a>        
+      <a  class="btn btn-primary my-2" href="./todos/create">Create Todo</a>        
       <div class="row my-4 p-2 ">
       {{#each todos}}
 
         <div class="card col-md-3 m-2" >
               <div class="card-body">
-                <a href="./{{this._id}}" class="text-decoration-none">
+                <a href="./todos/{{this._id}}" class="text-decoration-none">
                     <h4 class="card-title">{{this.title}} </h4>
                     <p class="card-text">{{this.description}}</p>
                 </a>

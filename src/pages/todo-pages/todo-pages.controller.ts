@@ -15,7 +15,7 @@ export class TodoPagesController {
     return { todos: await this.todoService.findAll(), title: "Lista de Todos" };
   }
 
-  @Redirect("../")
+  // @Redirect("../")
   @Get("create")
   @Render('todo/edit')
   async create() {
